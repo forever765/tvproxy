@@ -52,7 +52,7 @@ sudo systemctl daemon-reload
 
 Kodi 的 PVR 客户端，或电脑手机端的PotPlayer/VLC播放器可以使用地址 http://127.0.0.1:10086/iptv.m3u，本质是一个播放列表
 当你不使用 Kodi 只是想看某一个台的时候，你可以用VLC直接打开网络串流，填入相应的链接即可。
-![image](https://github.com/forever765/tvproxy/blob/main/PotPlayer.png)
+![image](https://github.com/forever765/tvproxy/blob/master/img/potplayer.png)
 
 ## 备注
 1. TVB真实播放地址的有效期是一天
