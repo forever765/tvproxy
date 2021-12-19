@@ -8,30 +8,42 @@ import (
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
+	"net/url"
+	"os"
 	"strings"
 	"time"
 )
 
 func parseTVB(liveName string, c *gin.Context) (string, error) {
-	fmt.Println("开始执行tvb代码块")
 	var tvb_type string
-	if liveName == "inews" {
+	var isProxy bool = false
+	switch liveName {
+	case "inews":
 		tvb_type = "news_windows1"
-	} else {
+	case "inews_proxy":
+		tvb_type = "news_windows1"
+		isProxy = true
+	case "finance":
 		tvb_type = "financeintl"
+	case "finance_proxy":
+		tvb_type = "financeintl"
+		isProxy = true
+	default:
+		return "",nil
 	}
+
 	myIP,err := getIP(c)
 	if err != nil {
 		return "",err
 	}
 
-	client := http.Client{} //getHTTPClient()
+	client := http.Client{}
 	tvbUrl := "https://news.tvb.com/ajax_call/getVideo.php"
 	request, err := http.NewRequest("GET", tvbUrl, nil)
 	q := request.URL.Query()
 	q.Add("token", "http://token.tvb.com/stream/live/hls/mobilehd_"+tvb_type+".smil?app=news&feed&client_ip="+myIP)
 	request.URL.RawQuery = q.Encode()
-	fmt.Println("TVB获取真实地址的 URL已拼接完成")  //request.URL.String()
+	fmt.Println("TVB获取真实地址的 URL已拼接完成")  // + request.URL.String()
 
 	request.Host = "news.tvb.com"
 	request.Header.Set("Connection", "keep-alive")
@@ -54,20 +66,21 @@ func parseTVB(liveName string, c *gin.Context) (string, error) {
 	if err != nil {
 		return "",err
 	}
-	//proxy, _ := url.Parse("http://192.168.123.66:7890")
-	//tr := &http.Transport{
-	//	Proxy:           http.ProxyURL(proxy),
-	//}
-	//
-	//client := &http.Client{
-	//	Transport: tr,
-	//	Timeout:   time.Second * 10, //超时时间
-	//}
-	//resp, err := client.Do(request)
-	//if err != nil {
-	//	return "",err
-	//}
-	//fmt.Println(request.Header)
+	if isProxy {
+		proxy, _ := url.Parse(os.Getenv("HTTP_PROXY"))
+		tr := &http.Transport{
+			Proxy:           http.ProxyURL(proxy),
+		}
+		client := &http.Client{
+			Transport: tr,
+			Timeout:   time.Second * 10, //超时时间
+		}
+		resp, err := client.Do(request)
+		if err != nil {
+			return "",err
+		}
+	}
+
 	reader, _ := gzip.NewReader(resp.Body)
 	Body, err := ioutil.ReadAll(reader)
 	if err != nil {

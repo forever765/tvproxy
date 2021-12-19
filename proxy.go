@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/qiniu/api.v7/v7/client"
 	"net/http"
 	"net/url"
 	"os"
@@ -12,14 +13,15 @@ func tsProxyHandler(c *gin.Context) {
 	remoteURL := c.Query("url")
 
 	request, err := http.NewRequest("GET", remoteURL, nil)
-	proxy, _ := url.Parse(os.Getenv("HTTP_PROXY"))
-	tr := &http.Transport{
-		Proxy:           http.ProxyURL(proxy),
-	}
-	client := &http.Client{
-		Transport: tr,
-		Timeout:   time.Second * 10, //超时时间
-	}
+	//proxy, _ := url.Parse(os.Getenv("HTTP_PROXY"))
+	//tr := &http.Transport{
+	//	Proxy:           http.ProxyURL(proxy),
+	//}
+	//client := &http.Client{
+	//	Transport: tr,
+	//	Timeout:   time.Second * 10, //超时时间
+	//}
+	client := getHTTPClientProxy()
 	resp, err := client.Do(request)
 	if err != nil {
 		c.AbortWithError(500, err)
