@@ -81,7 +81,10 @@ func parseTVB(liveName string, c *gin.Context) (string, error) {
 		result, _ := jsonvalue.UnmarshalString(string(Body))
 		n, _ := result.Get("url")
 		fmt.Println("真实 URL获取成功：", n.String())
-		realUrl = n.String()
+		// 大陆IP返回的是http协议地址，替换为https
+		secureLink := strings.Replace(n.String(), "http", "https", 1)
+		fmt.Println("已替换为https安全链接")
+		realUrl = secureLink
 	}
 	defer resp.Body.Close()
 	return realUrl, nil
