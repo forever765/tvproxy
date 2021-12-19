@@ -3,8 +3,11 @@ package main
 import (
 	"bufio"
 	"io/ioutil"
+	"net/http"
 	"net/url"
+	"os"
 	"strings"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,10 +23,18 @@ func rthk32Handler(c *gin.Context) {
 }
 
 func m3u8ProxyHandler(m3u8url string, c *gin.Context) {
-	resp, err := getHTTPClient().Get(m3u8url)
+	request, err := http.NewRequest("GET", m3u8url, nil)
+	proxy, _ := url.Parse(os.Getenv("HTTP_PROXY"))
+	tr := &http.Transport{
+		Proxy:           http.ProxyURL(proxy),
+	}
+	client := &http.Client{
+		Transport: tr,
+		Timeout:   time.Second * 10, //超时时间
+	}
+	resp, err := client.Do(request)
 	if err != nil {
 		c.AbortWithError(500, err)
-		return
 	}
 	defer resp.Body.Close()
 	bodyBytes, err := ioutil.ReadAll(resp.Body)

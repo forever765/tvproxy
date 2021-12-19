@@ -12,6 +12,10 @@ func m3uHandler(c *gin.Context) {
 ${baseURL}tvb/inews.m3u8
 #EXTINF:-1,無綫財經資訊台
 ${baseURL}tvb/finance.m3u8
+#EXTINF:-1,無綫新聞台-Proxy
+${baseURL}tvb/inews_proxy.m3u8
+#EXTINF:-1,無綫財經資訊台-Proxy
+${baseURL}tvb/finance_proxy.m3u8
 #EXTINF:-1,RTHK 31
 ${baseURL}rthk/31.m3u8
 #EXTINF:-1,RTHK 32
