@@ -29,13 +29,13 @@ sudo systemctl daemon-reload
 |---|---|
 |TVPROXY_LISTEN|决定程序监听哪一个地址上的哪个端口，默认值为 "127.0.0.1:10086"|
 |TVPROXY_BASE_URL|决定程序对外服务的地址前缀，默认值为 "http://127.0.0.1:10086/"|
-|HTTP_PROXY|程序使用的代理服务器，代理RTHK时使用，无默认值，跟随系统设置|
+|TVPROXY_HTTP_PROXY|程序使用的代理服务器，代理RTHK时使用，无默认值，跟随系统设置|
 
 现在有几个场景可供参考:（端口号任意，默认10086）
 
-1. 本地环境使用：设置好`HTTP_PROXY`，然后直接观看，此时M3U地址为`http://127.0.0.1:10086/iptv.m3u`
-2. 路由器使用：设置好`HTTP_PROXY`，`TVPROXY_LISTEN`填写“0.0.0.0:10086”，`TVPROXY_BASE_URL`填写“http://路由器ip:10086/”
-3. 内网服务器使用：设置好`HTTP_PROXY`，`TVPROXY_LISTEN`填写“0.0.0.0:10086”，`TVPROXY_BASE_URL`填写“http://服务器ip:10086/”
+1. 本地环境使用：设置好`TVPROXY_HTTP_PROXY`，然后直接观看，此时M3U地址为`http://127.0.0.1:10086/iptv.m3u`
+2. 路由器使用：设置好`TVPROXY_HTTP_PROXY`，`TVPROXY_LISTEN`填写“0.0.0.0:10086”，`TVPROXY_BASE_URL`填写“http://路由器ip:10086/”
+3. 内网服务器使用：设置好`TVPROXY_HTTP_PROXY`，`TVPROXY_LISTEN`填写“0.0.0.0:10086”，`TVPROXY_BASE_URL`填写“http://服务器ip:10086/”
 
 ## 使用方法
 
@@ -46,6 +46,8 @@ sudo systemctl daemon-reload
 |PotPlayer/VLC播放器 或 Kodi PVR使用|http://127.0.0.1:10086/iptv.m3u|
 |無線新聞台|http://127.0.0.1:10086/tvb/inews.m3u8|
 |無線財經資訊台|http://127.0.0.1:10086/tvb/finance.m3u8|
+|無線新聞台-代理|http://127.0.0.1:10086/tvb/inews_proxy.m3u8|
+|無線財經資訊台-代理|http://127.0.0.1:10086/tvb/finance_proxy.m3u8|
 |RTHK 31|http://127.0.0.1:10086/rthk/31.m3u8|
 |RTHK 32|http://127.0.0.1:10086/rthk/32.m3u8|
 

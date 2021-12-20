@@ -2,15 +2,11 @@ package main
 
 import (
 	"bufio"
-	"github.com/qiniu/api.v7/v7/client"
+	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"net/http"
 	"net/url"
-	"os"
 	"strings"
-	"time"
-
-	"github.com/gin-gonic/gin"
 )
 
 // from https://www.rthk.hk/feeds/dtt/rthktv31_https.m3u8
@@ -25,16 +21,7 @@ func rthk32Handler(c *gin.Context) {
 
 func m3u8ProxyHandler(m3u8url string, c *gin.Context) {
 	request, err := http.NewRequest("GET", m3u8url, nil)
-	//proxy, _ := url.Parse(os.Getenv("HTTP_PROXY"))
-	//tr := &http.Transport{
-	//	Proxy:           http.ProxyURL(proxy),
-	//}
-	//client := &http.Client{
-	//	Transport: tr,
-	//	Timeout:   time.Second * 10, //超时时间
-	//}
-	client := getHTTPClientProxy()
-	resp, err := client.Do(request)
+	resp, err := getHTTPClientProxy().Do(request)
 	if err != nil {
 		c.AbortWithError(500, err)
 	}

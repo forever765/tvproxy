@@ -1,22 +1,21 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
-	"net/url"
-	"os"
 	"time"
 )
 
 func getHTTPClient() *http.Client {
+	fmt.Println("普通构造：不走代理")
 	return &http.Client{
-		Timeout: 10 * time.Second,
+		Timeout: 10 * time.Second,  //超时时间
 	}
 }
 
 func getHTTPClientProxy() *http.Client {
-	proxy, _ := url.Parse(os.Getenv("HTTP_PROXY"))
 	tr := &http.Transport{
-		Proxy:           http.ProxyURL(proxy),
+		Proxy:           http.ProxyURL(proxyURL),
 	}
 	return &http.Client{
 		Transport: tr,
