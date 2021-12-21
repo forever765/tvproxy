@@ -6,7 +6,6 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	//_ "github.com/joho/godotenv/autoload"
 )
 
 var baseURL string
@@ -39,7 +38,8 @@ func main() {
 		tvb.GET("/inews_proxy.m3u8", iNewsHandler)
 		tvb.GET("/finance.m3u8", financeHandler)
 		tvb.GET("/finance_proxy.m3u8", financeHandler)
-		tvb.GET("/2/:id/index.m3u8", tsProxyHandler)
+		tvb.GET("/i.ts", tsProxyHandler)
+		tvb.GET("/2/:id/index.m3u8", tsProxyHandlerTVB)
 	}
 	rthk := r.Group("/rthk")
 	{

@@ -32,10 +32,12 @@ func m3u8ProxyHandler(m3u8url string, c *gin.Context) {
 		return
 	}
 	bodyString := string(bodyBytes)
+	//fmt.Println("RTHK bodyString:  ", bodyString)
 	processedBody := m3u8Proc(bodyString, baseURL+"i.ts?url=")
 	c.Data(200, resp.Header.Get("Content-Type"), []byte(processedBody))
 }
 
+// 处理URL并返回，返回格式：http://ip:10086/i.ts?url=  live服务器返回的url, RTHK就是上面的bodyString
 func m3u8Proc(data string, prefixURL string) string {
 	var sb strings.Builder
 	scanner := bufio.NewScanner(strings.NewReader(data))
@@ -49,5 +51,6 @@ func m3u8Proc(data string, prefixURL string) string {
 		}
 		sb.WriteString("\n")
 	}
+	//fmt.Println("RTHK m3u8Proc处理后的文件：",sb.String())
 	return sb.String()
 }

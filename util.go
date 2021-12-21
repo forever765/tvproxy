@@ -1,13 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"time"
 )
 
 func getHTTPClient() *http.Client {
-	fmt.Println("普通构造：不走代理")
 	return &http.Client{
 		Timeout: 10 * time.Second,  //超时时间
 	}
